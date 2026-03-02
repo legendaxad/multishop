@@ -1,0 +1,276 @@
+{% extends 'base.html' %}
+{%load static%}
+{% block main %}
+
+<div class="bg0 m-t-23 p-b-140">
+    <div class="container">
+        <div class="flex-w flex-sb-m p-b-52">
+
+            <div class="flex-w flex-l-m filter-tope-group m-tb-10">
+
+
+
+                {% for category in categories %}
+                <a href="{% url 'category' category.pk %}" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5
+		       {% if current_category and current_category.pk == category.pk %} how-active1 {% endif %}">
+                    {{ category.title }}
+                </a>
+                {% endfor %}
+
+
+            </div>
+            <div class="flex-w flex-c-m m-tb-10">
+                <div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
+                    <i class="icon-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-filter-list"></i>
+                    <i class="icon-close-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
+                    Filter
+                </div>
+
+                <div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
+                    <i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
+                    <i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
+                    Search
+                </div>
+            </div>
+
+            <!-- Search product -->
+            <div class="dis-none panel-search w-full p-t-10 p-b-15">
+                <form action="{% url 'search' %}" method="get">
+                    <div class="bor8 dis-flex p-l-15">
+                        <button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
+                            <i class="zmdi zmdi-search"></i>
+                        </button>
+
+                        <input name="q" class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" placeholder="Search">
+                    </div>
+                </form>
+            </div>
+
+            <!-- Filter -->
+            <div class="dis-none panel-filter w-full p-t-10">
+                <form method="get">
+                    <div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm">
+
+                        <div class="filter-col1 p-r-15 p-b-27">
+                            <div class="mtext-102 cl2 p-b-15">
+                                Sort By
+                            </div>
+
+                            <ul class="list-unstyled">
+
+                                <li class="mb-2">
+                                    <a href="?sort=title" class="d-block px-2 py-1 rounded
+           {% if request.GET.sort == 'title' %}
+               bg-dark text-white
+           {% else %}
+               text-dark
+           {% endif %}">
+                                        Sorting: A to Z
+                                    </a>
+                                </li>
+
+                                <li class="mb-2">
+                                    <a href="?sort=-title" class="d-block px-2 py-1 rounded
+           {% if request.GET.sort == '-title' %}
+               bg-dark text-white
+           {% else %}
+               text-dark
+           {% endif %}">
+                                        Sorting: Z to A
+                                    </a>
+                                </li>
+
+                                <li class="mb-2">
+                                    <a href="?sort=-price" class="d-block px-2 py-1 rounded
+           {% if request.GET.sort == '-price' %}
+               bg-dark text-white
+           {% else %}
+               text-dark
+           {% endif %}">
+                                        Pricing: High to Low
+                                    </a>
+                                </li>
+
+                                <li class="mb-2">
+                                    <a href="?sort=price" class="d-block px-2 py-1 rounded
+           {% if request.GET.sort == 'price' %}
+               bg-dark text-white
+           {% else %}
+               text-dark
+           {% endif %}">
+                                        Pricing: Low to High
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+
+                        <div class="filter-col2 p-r-15 p-b-27">
+                            <div class="mtext-102 cl2 p-b-15">
+                                Price
+                            </div>
+                            <div class="form-check mb-2">
+
+                                <label class="form-check-label" for="price1">
+                                    {% if current_category %}
+                                    <a style="text-decoration:none" href="{% url 'category' current_category.id %}">
+                                        Default
+                                    </a>
+                                    {% endif %}
+                                </label>
+                            </div>
+
+                            <div class="form-check mb-2">
+
+                                <input class="form-check-input" type="checkbox" name="price" value="10-100"  id="price1" {% if "10-100" in selected_prices %}checked{% endif %}/>
+                               <label class="form-check-label
+    {% if '10-100' in selected_prices %}text-primary fw-bold{% endif %}"
+    for="price1">
+    $0 - $100
+</label>
+                            </div>
+
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" name="price" value="100-200"
+                                    id="price2"  {% if "100-200" in selected_prices %}checked{% endif %}/>
+                                    <label class="form-check-label
+    {% if '100-200' in selected_prices %}text-primary fw-bold{% endif %}"for="price1">
+                                    $100 - $200
+                                </label>
+                            </div>
+
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" name="price" value="200-300"
+                                    id="price3" {% if "200-300" in selected_prices %}checked{% endif %}/>
+                                    <label class="form-check-label
+    {% if '200-300' in selected_prices %}text-primary fw-bold{% endif %}"for="price1">
+                                    $200 - $300
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" name="price" value="300-400"
+                                    id="price4" {% if "300-400" in selected_prices %}checked{% endif %} />
+                                <label class="form-check-label
+    {% if '300-400' in selected_prices %}text-primary fw-bold{% endif %}"for="price1">
+                                    $300 - $400
+                                </label>
+                            </div>
+
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" name="price" value="400-500"
+                                    id="price5" {% if "400-500" in selected_prices %}checked{% endif %}/>
+                                <label class="form-check-label
+    {% if '400-500' in selected_prices %}text-primary fw-bold{% endif %}"for="price1">
+                                    $400 - $500
+                                </label>
+                            </div>
+
+                        </div>
+
+                        <div class="filter-col3 p-r-15 p-b-27">
+                            <div class="mtext-102 cl2 p-b-15">
+                                Color
+                            </div>
+                            <div class="form-check mb-2">
+
+
+                            </div>
+                            <div class="form-check mb-2">
+
+
+                                <label class="custom-control-label text-dark ms-2" for="color-1">
+                                    {% if current_category %}
+                                    <a style="text-decoration:none" href="{% url 'category' current_category.id %}">
+                                        Default
+                                    </a>
+                                    {% endif %}</label>
+                            </div>
+
+                            <div class="form-check mb-2">
+
+                                <input class="form-check-input" type="checkbox" id="color-1" name="color"
+                                    value="black" {% if "black" in color_fields %}checked{% endif %}/>
+                                <label class="custom-control-label text-dark ms-2" for="color-1">Black</label>
+                            </div>
+
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="color-2" name="color"
+                                    value="white" {% if "white" in color_fields %}checked{% endif %}/>
+                                <label class="custom-control-label text-dark ms-2" for="color-2">White</label>
+                            </div>
+                            <div class="form-check mb-2">
+
+                                <input class="form-check-input" type="checkbox" id="color-3" name="color" value="red" {% if "red" in color_fields %}checked{% endif %}/>
+                                <label class="custom-control-label text-dark ms-2" for="color-3">Red</label>
+                            </div>
+                            <div class="form-check mb-2">
+
+                                <input class="form-check-input" type="checkbox" id="color-4" name="color"
+                                    value="blue" {% if "blue" in color_fields %}checked{% endif %}/>
+                                <label class="custom-control-label text-dark ms-2" for="color-4">Blue</label>
+                            </div>
+                            <div class="form-check mb-2">
+
+                                <input class="form-check-input" type="checkbox" id="color-5" name="color"
+                                    value="green" {% if "green" in color_fields %}checked{% endif %}/>
+                                <label class="custom-control-label text-dark ms-2" for="color-5">Green</label>
+                            </div>
+
+                        </div>
+
+                        <button type="submit"
+                            class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+                            Apply Filters
+                        </button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row  isotope-grid">
+            {% for product in products%}
+            <div class="col-sm-6  col-md-4 col-lg-3 p-b-35 isotope-item {{ item.category.title|lower }}">
+
+                <!-- Block2 -->
+                {% include 'shop/components/product_row.html'%}
+            </div>
+            {% empty %}
+            <h1>Something wrong</h1>
+            {%endfor%}
+        </div>
+
+        <!-- Load more -->
+        <div class="col-12 " style="margin-top: 50px;">
+            <nav>
+                <ul class="pagination justify-content-center">
+                    {% if products.has_previous %}
+                    <li class="page-item "><a class="page-link"
+                            href="?page={{products.previous_page_number}}">Previous</a></li>
+                    {%else%}
+                    <li class="page-item  disabled"><a class="page-link" href="#">Previous</a></li>
+
+                    {%endif%}
+                    {% for page_number in products.paginator.page_range%}
+                    {% if page_number == products.number %}
+                    <li class="page-item active"><a class="page-link" href="?page={{page_number}}">{{page_number}}</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{page_number}}">{{page_number}}</a></li>
+                    {% endif %}
+                    {%endfor%}
+                    {% if products.has_next %}
+                    <li class="page-item "><a class="page-link" href="?page={{products.next_page_number}}">Next</a></li>
+                    {%else%}
+                    <li class="page-item  disabled"><a class="page-link" href="#">Next</a></li>
+
+                    {%endif%}
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+{% include 'shop/components/sidebar.html'%}
+
+{%endblock%}

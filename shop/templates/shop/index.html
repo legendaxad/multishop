@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+<!-- Sidebar -->
+{% include 'shop/components/sidebar.html'%}
+
+	<!-- Cart -->
+
+{% include 'shop/components/cart.html'%}
+
+
+	<!-- Slider -->
+
+{% include 'shop/components/slider.html'%}
+
+	<!-- Banner -->
+
+{% include 'shop/components/banner.html'%}
+
+	<!-- Product -->
+
+{% include 'shop/components/product.html'%}
+
+	<!-- Blog -->
+{% include 'shop/components/blog.html'%}
+
+	<!-- Back to top -->
+	<div class="btn-back-to-top" id="myBtn">
+		<span class="symbol-btn-back-to-top">
+			<i class="zmdi zmdi-chevron-up"></i>
+		</span>
+	</div>
+
+
+
+
+
+{% endblock main %}

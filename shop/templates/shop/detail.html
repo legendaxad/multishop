@@ -1,0 +1,261 @@
+{% extends 'base.html' %}
+{%load static shop_tags%}
+
+{% block main %}
+
+<div class=" p-t-60 p-b-20">
+	<div class=" "></div>
+
+	<div class="container">
+		<div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
+			<button class="how-pos3 hov3 trans-04 ">
+				<img src="{%static 'images/icons/icon-close.png'%}" alt="CLOSE">
+			</button>
+
+			<div class="row">
+				<div class="col-md-6 col-lg-7 p-b-30">
+					<div class="p-l-25 p-r-30 p-lr-0-lg">
+						<div class="wrap-slick3 flex-sb flex-w">
+							<div class="wrap-slick3-dots"></div>
+							<div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
+
+							<div class="slick3 gallery-lb">
+								{% for image in product.images.all %}
+								<div class="item-slick3" data-thumb="{{ image.image.url }}">
+									<div class="wrap-pic-w pos-relative">
+										<img src="{{ image.image.url }}" alt="IMG-PRODUCT">
+
+										<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
+											href="{{ image.image.url }}">
+											<i class="fa fa-expand"></i>
+										</a>
+									</div>
+								</div>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-6 col-lg-5 p-b-30">
+					<div class="p-r-50 p-t-5 p-lr-0-lg">
+						<h4 class="mtext-105 cl2 js-name-detail p-b-14">
+							{{product.title}}
+						</h4>
+
+						<span class="mtext-106 cl2">
+							{{product.types.first.price}}
+						</span>
+
+						<p class="stext-102 cl3 p-t-23">
+							{{product.description}}
+						</p>
+
+						<!--  -->
+						<div class="p-t-33">
+							<div class="flex-w flex-r-m p-b-10">
+								<div class="size-203 flex-c-m respon6">
+									Size
+								</div>
+
+								<div class="size-204 respon6-next">
+									<div class="rs1-select2 bor8 bg0">
+										<select class="js-select2" name="time">
+											<option>Choose an option</option>
+											<option>Size S</option>
+											<option>Size M</option>
+											<option>Size L</option>
+											<option>Size XL</option>
+										</select>
+										<div class="dropDownSelect2"></div>
+									</div>
+								</div>
+							</div>
+
+							<div class="flex-w flex-r-m p-b-10">
+								<div class="size-203 flex-c-m respon6">
+									Color
+								</div>
+
+								<div class="size-204 respon6-next">
+									<div class="rs1-select2 bor8 bg0">
+										<select class="js-select2" name="time">
+											<option>Choose an option</option>
+											<option>Red</option>
+											<option>Blue</option>
+											<option>White</option>
+											<option>Grey</option>
+										</select>
+										<div class="dropDownSelect2"></div>
+									</div>
+								</div>
+							</div>
+
+							<div class="flex-w flex-r-m p-b-10">
+								{% if request.user.is_authenticated %}
+								<form action="{% url 'basket_add' product.pk %}" method="post">
+									{% csrf_token %}
+									<div class="d-flex align-items-center mb-4 pt-2">
+
+										<div class="input-group quantity mr-3"
+											style="width: 130px;">
+
+											<div class="input-group-btn">
+												<button type="button"
+													class="btn btn-primary btn-minus">
+													<i class="fa fa-minus"></i>
+												</button>
+											</div>
+
+											<input name="quantity" type="number" min="1"
+												class="form-control bg-secondary border-0 text-center"
+												value="1">
+
+											<div class="input-group-btn">
+												<button type="button"
+													class="btn btn-primary btn-plus">
+													<i class="fa fa-plus"></i>
+												</button>
+											</div>
+
+										</div>
+
+										<button type="submit" class="btn btn-primary px-3">
+											<i class="fa fa-shopping-cart mr-1"></i> Add To Cart
+										</button>
+
+									</div>
+								</form>
+								{%else%}
+							<a href="{% url 'signin' %}?next={{ request.path }}"
+       class="btn btn-warning">
+       Login to Add to Cart
+    </a>
+								{% endif%}
+							</div>
+						</div>
+
+						<!--  -->
+						<div class="flex-w flex-m p-l-100 p-t-40 respon7">
+							{% if request.user.is_authenticated %}
+							{% get_likes request.user as likes %}
+							{% get_basket request.user as basket %}
+							<div class="flex-m bor9 p-r-10 m-r-11">
+								<a href="{% url 'like_add' product.pk %}" data-id="{{ product.pk }}"
+									class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100"
+									data-tooltip="Add to Wishlist">
+									{% if product in likes %}
+									<i class="zmdi zmdi-favorite text-danger"></i>
+									{% else %}
+									<i class="zmdi zmdi-favorite"></i>
+
+									{%endif%}
+								</a>
+							</div>
+
+							<a href="#"
+								class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
+								data-tooltip="Facebook">
+								<i class="fa fa-facebook"></i>
+							</a>
+
+							<a href="#"
+								class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
+								data-tooltip="Twitter">
+								<i class="fa fa-twitter"></i>
+							</a>
+
+							<a href="#"
+								class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
+								data-tooltip="Google Plus">
+								<i class="fa fa-google-plus"></i>
+							</a>
+							{%else%}
+
+						</div>
+						<a href="{% url 'signin' %}"
+								class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100"
+								data-tooltip="Add to Wishlist">
+
+								<i class="zmdi zmdi-favorite"></i>
+
+							</a>
+						<a href="{% url 'signin' %}"
+							class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
+							data-tooltip="Facebook">
+							<i class="fa fa-facebook"></i>
+						</a>
+
+						<a href="{% url 'signin' %}"
+							class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
+							data-tooltip="Twitter">
+							<i class="fa fa-twitter"></i>
+						</a>
+
+						<a href="{% url 'signin' %}"
+							class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
+							data-tooltip="Google Plus">
+							<i class="fa fa-google-plus"></i>
+						</a>
+						{%endif%}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<div class="container p-t-60">
+    <div class="bg0 p-4 rounded shadow-sm">
+
+        <h4 class="mtext-109 cl2 p-b-20">Customer Reviews</h4>
+
+        {% if request.user.is_authenticated %}
+        <form method="post" class="mb-4">
+            {% csrf_token %}
+            <div class="form-group">
+                <textarea name="text"
+                          class="form-control"
+                          rows="4"
+                          placeholder="Write your comment"
+                          required></textarea>
+            </div>
+            <button type="submit"
+                    class="btn btn-dark mt-2 px-4">
+                Post Comment
+            </button>
+        </form>
+        {% else %}
+        <p>
+            <a href="{% url 'signin' %}" class="text-primary">
+                Login
+            </a> to write a comment.
+        </p>
+        {% endif %}
+
+        {% for comment in comments %}
+        <div class="border-bottom pb-3 mb-3">
+
+            <div class="d-flex justify-content-between">
+                <strong>{{ comment.user.email }}</strong>
+                <small class="text-muted">
+                    {{ comment.created_at }}
+                </small>
+            </div>
+
+            <p class="mt-2 mb-0">
+                {{ comment.text }}
+            </p>
+
+        </div>
+        {% empty %}
+        <p class="text-muted">No comments yet.</p>
+        {% endfor %}
+
+    </div>
+</div>
+{% include 'shop/components/sidebar.html'%}
+
+
+
+{%endblock main%}

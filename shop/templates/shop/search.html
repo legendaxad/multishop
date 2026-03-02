@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="container">
+
+ <h2 class="text-center" style="height:50px">Searched Products</h2>
+  <div class="row">
+     {% for product in products %}
+        <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+            {% include 'shop/components/product_row.html' %}
+        </div>
+        {% endfor %}
+  </div>
+</div>
+{% endblock main %}

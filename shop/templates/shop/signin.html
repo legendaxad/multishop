@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="container my-5">
+  <form action="{% url 'signin' %}" method="post" class="col-5 mx-auto d-flex flex-column">
+    {% csrf_token %}
+    <h3 class="text-center">SIGN IN</h3>
+    {{form.as_p}}
+    <button type="submit" class="btn btn-warning">Sign in</button>
+  </form>
+</div>
+{% include 'shop/components/sidebar.html'%}
+
+{% endblock main %}

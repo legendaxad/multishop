@@ -1,0 +1,40 @@
+{% load static%}
+{% load shop_tags %}
+<div class="block2">
+    <div class="block2-pic hov-img0">
+        <img src="{{ product.get_image }}" alt="">
+        <a href="{% url 'product_detail' product.pk %}"
+            class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
+            Quick View
+        </a>
+    </div>
+
+    <div class="block2-txt flex-w flex-t p-t-14">
+        <div class="block2-txt-child1 flex-col-l">
+            <a href='' class="stext-104 cl4 hov-cl1 trans-04">
+                {{ product.title }}
+            </a>
+
+            <span class="stext-105 cl3">
+                ${{ product.types.first.price }}
+            </span>
+        </div>{% if request.user.is_authenticated %}
+							{% get_likes request.user as likes %}
+        	<div class="block2-txt-child2 flex-r p-t-3">
+
+											<a href="{% url 'like_add' product.pk %}"
+									class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100"
+									data-tooltip="Add to Wishlist">
+									{% if product in likes %}
+									<img class="" src="{% static 'images/icons/icon-heart-02.png'%} " alt="ICON">
+									{% else %}
+									<img class="" src="{% static 'images/icons/icon-heart-01.png'%}" alt="ICON">
+
+									{%endif%}
+								</a>
+
+											</div>
+         {%endif%}
+
+    </div>
+</div>

@@ -1,0 +1,49 @@
+<section class="sec-product bg0 p-t-100 p-b-50">
+    <div class="container">
+        <div class="p-b-32">
+            <h3 class="ltext-105 cl5 txt-center respon1">
+                Store Overview
+            </h3>
+        </div>
+
+        <div class="tab01">
+
+            <!-- NAV TABS -->
+            <ul class="nav nav-tabs" role="tablist">
+                {% for category in categories %}
+                <li class="nav-item p-b-10">
+                    <a class="nav-link {% if forloop.first %}active{% endif %}" data-toggle="tab"
+                        href="#{{ category.title|slugify }}" role="tab">
+                        {{ category.title }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+
+            <!-- TAB CONTENT -->
+            <div class="tab-content p-t-50">
+                {% for category in categories %}
+                <div class="tab-pane fade {% if forloop.first %}show active{% endif %}"
+                    id="{{ category.title|slugify }}" role="tabpanel">
+
+                    <div class="wrap-slick2">
+                        <div class="slick2">
+
+                            {% for product in category.products.all %}
+                            <div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
+                                {% include 'shop/components/product_row.html'%}
+                            </div>
+                            {% empty %}
+                            <p>No products in this category</p>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+</section>
